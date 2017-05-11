@@ -1,0 +1,181 @@
+<script type="text/javascript">
+    "use strict";
+    /*global RED*/
+    RED.nodes.registerType('redis-mc-config', {
+        category: 'config',
+        defaults: {
+            host: {
+                value: "localhost",
+                required: true
+            },
+            port: {
+                value: "6379",
+                required: true,
+                validate: RED.validators.number()
+            },
+            dbase: {
+                value: "0",
+                required: true,
+                validate: RED.validators.number()
+            },
+            pass: {
+                value: "",
+                required: false
+            }
+        },
+        label: function() {
+            return this.host + ":" + this.port + "/" + this.dbase;
+        }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="redis-mc-config">
+    <div class="form-row">
+        <label for="node-config-input-host"><i class="fa fa-globe"></i> Host</label>
+        <input type="text" id="node-config-input-host">
+    </div>
+    <div class="form-row">
+        <label for="node-config-input-port"><i class="fa fa-server"></i> Port</label>
+        <input type="text" id="node-config-input-port">
+    </div>
+    <div class="form-row">
+        <label for="node-config-input-dbase"><i class="fa fa-random"></i> DB</label>
+        <input type="text" id="node-config-input-dbase">
+    </div>
+    <div class="form-row">
+        <label for="node-config-input-pass"><i class="fa fa-lock"></i> Password</label>
+        <input type="password" id="node-config-input-pass">
+    </div>
+</script>
+
+<script type="text/javascript">
+    /*global RED*/
+    RED.nodes.registerType('redis-mc-in', {
+        category: 'input',
+        outputs: 1,
+        color: "#ffaaaa",
+        icon: "redis.png",
+        paletteLabel: "redis mc in",
+        defaults: {
+            server: {
+                value: "",
+                type: "redis-config"
+            },
+            command: {
+                value: "blpop"
+            },
+            name: {
+                value: ""
+            },
+            topic: {
+                value: ""
+            },
+            timeout: {
+                value: 0,
+                validate: RED.validators.number()
+            }
+        },
+        label: function() {
+            return this.name || "Redis IN";
+        }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="redis-mc-in">
+    <div class="form-row">
+        <label for="node-input-server"><i class="fa fa-globe"></i> Server</label>
+        <input type="text" id="node-input-server" placeholder="Server">
+    </div>
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-topic"><i class="icon-tasks"></i> Topic</label>
+        <input type="text" id="node-input-topic" placeholder="Topic">
+    </div>
+    <div class="form-row">
+        <label for="node-input-command"><i class="fa fa-unlock"></i> Method</label>
+        <select id="node-input-command">
+            <option value="blpop" selected>BLPOP</option>
+            <option value="brpop">BRPOP</option>
+            <option value="subscribe">SUBSCRIBE</option>
+            <option value="psubscribe">PSUBSCRIBE</option>
+        </select>
+    </div>
+    <div class="form-row">
+        <label for="node-input-timeout"><i class="fa fa-clock-o"></i> Timeout</label>
+        <input type="text" id="node-input-timeout" placeholder="Timeout">
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="redis-mc-in">
+    <p>Redis in</p>
+    <p>Acts as Subscriber, using BLPOP, SUBSCRIBE or PSUBSCRIBE</p>
+    <p>The msg.topic is pattern on all methods, separated by spaces.</p>
+    <p>Note: Only PSUBSCRIBE supports patterns with wildcards.</p>
+</script>
+
+
+<script type="text/javascript">
+    /*global RED*/
+    RED.nodes.registerType('redis-mc-out', {
+        category: 'output',
+        inputs: 1,
+        outputs: 0,
+        color: "#ffaaaa",
+        icon: "redis.png",
+        align: "right",
+        paletteLabel: "redis mc out",
+        defaults: {
+            server: {
+                value: "",
+                type: "redis-config"
+            },
+            command: {
+                value: "rpush"
+            },
+            name: {
+                value: ""
+            },
+            topic: {
+                value: ""
+            }
+        },
+        label: function() {
+            return this.name || "Redis OUT";
+        }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="redis-mc-out">
+    <div class="form-row">
+        <label for="node-input-server"><i class="fa fa-globe"></i> Server</label>
+        <input type="text" id="node-input-server" placeholder="Server">
+    </div>
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+    <div class="form-row">
+        <label for="node-input-topic"><i class="icon-tasks"></i> Topic</label>
+        <input type="text" id="node-input-topic" placeholder="Topic">
+    </div>
+    <div class="form-row">
+        <label for="node-input-command"><i class="fa fa-unlock"></i> Method</label>
+        <select id="node-input-command">
+            <option value="rpush" selected>RPUSH</option>
+            <option value="lpush">LPUSH</option>
+            <option value="rpushx">RPUSHX</option>
+            <option value="lpushx">LPUSHX</option>
+            <option value="publish">PUBLISH</option>
+        </select>
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="redis-mc-out">
+    <p>Redis out</p>
+    <p>Acts as Publisher, using RPUSH, LPUSH or PUBLISH</p>
+    <p>The msg.topic is key name to publish.</p>
+    <p>Note: Output only works on PUBLISH and return number of subscribers.</p>
+</script>

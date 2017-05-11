@@ -1,0 +1,7 @@
+{
+  "esversion" : 6,
+  "strict": true,
+  "undef": true,
+  "unused": false,
+  "predef": [ "console", "Error", "require", "module", "process" ]
+}

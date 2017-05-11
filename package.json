@@ -1,0 +1,40 @@
+{
+  "name": "node-red-contrib-redis-multichannel",
+  "version": "1.1.4",
+  "description": "Node Red REDIS node with multichannel support from REST api to do configuration",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bnkems/node-red-contrib-redis-multichannel"
+  },
+  "keywords": [
+    "redis-mc",
+    "node-red",
+    "node"
+  ],
+  "node-red": {
+    "nodes": {
+      "redis-mc": "./src/redis-mc.js"
+    }
+  },
+  "author": [
+    {
+      "name": "Miraz Al-Mamun"
+    },
+    {
+      "name": "Andre Alexandre Avila"
+    }
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/chameleonbr/node-red-contrib-redis/issues"
+  },
+  "homepage": "https://github.com/chameleonbr/node-red-contrib-redis#readme",
+  "dependencies": {
+    "bluebird": "^3.3.3",
+    "redis": "^2.7.1"
+  }
+}
